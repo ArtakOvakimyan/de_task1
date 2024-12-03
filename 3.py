@@ -1,47 +1,51 @@
-def replace_na_with_average(numbers):
-    for i in range(len(numbers)):
-        if numbers[i] == 'N/A':
-            left = right = None
-            
-            if i > 0 and numbers[i-1] != 'N/A':
-                left = int(numbers[i-1])
-            if i < len(numbers) - 1 and numbers[i+1] != 'N/A':
-                right = int(numbers[i+1])
-            
-            neighbors = [n for n in [left, right] if n is not None]
-            if neighbors:
-                numbers[i] = sum(neighbors) / len(neighbors)
-            else:
-                numbers[i] = 0
+import os
+import re
+import json
+from bs4 import BeautifulSoup
 
-    return list(map(int, numbers))
 
-def filter_and_average(numbers):
-    filtered_numbers = [num for num in numbers if num % 7 == 0]
-    if filtered_numbers:
-        return sum(filtered_numbers) / len(filtered_numbers)
-    return 0
+def parse_xml(filepath):
+    with open(filepath, 'r', encoding='utf-8') as f:
+        xml = f.read()
+    star = BeautifulSoup(xml, 'xml').star
+    item = {}
+    for el in star:
+        if el.name is None:
+            continue
+        item[el.name] = el.get_text().strip()
+    item['radius'] = int(item['radius'])
+    return item
 
-def get_averages(path):
-    averages = []
-    
-    with open(input_file, 'r') as f:
-        for line in f:
-            numbers = line.strip().split()
-            numbers = replace_na_with_average(numbers)
-            average = filter_and_average(numbers)
-            averages.append(average)
-    return averages
+def process_data(data_list):
+    sorted_data = sorted(data_list, key=lambda item: int(item["radius"]))
+    filtered_data = [item for item in data_list if 'rotation' in item and float(re.sub(r'[^0-9.]', '', item["rotation"])) > 500]
+    distances = [float(re.sub(r'[^0-9.]', '', item["distance"])) for item in data_list]
+    distance_stats = {
+      "sum": sum(distances),
+      "min": min(distances),
+      "max": max(distances),
+      "avg": sum(distances) / len(distances) if distances else 0
+    }
 
-def write_res(data, path):
-    averages = []
+    constellations = [item["constellation"] for item in data_list if 'constellation' in item]
+    constellation_counts = {}
+    for constellation in constellations:
+      constellation_counts[constellation] = constellation_counts.get(constellation, 0) + 1
 
-    with open(output_file, 'w') as f:
-        for avg in data:
-            f.write(f"{avg}\n")
-            
-if __name__ == '__main__':
-    input_file = './data/third_task.txt'
-    output_file = './3_result_18.txt'
-    averages = get_averages(input_file)
-    write_res(averages, output_file)
+    return sorted_data, filtered_data, distance_stats, constellation_counts
+
+
+if __name__ == "__main__":
+    data_dir = "./data/3"
+    absolute_data_dir = os.path.abspath(data_dir)
+    html_files = [f for f in os.listdir(absolute_data_dir) if f.endswith(".xml")]
+    parsed_data = []
+    for file in html_files:
+        absolute_filepath = os.path.join(absolute_data_dir, file)
+        data = parse_xml(absolute_filepath)
+        if data:
+            parsed_data.append(data)
+    sorted_data, filtered_data, views_stats, city_counts = process_data(parsed_data)
+
+    with open("output_3_18.json", "w", encoding="utf-8") as f:
+        json.dump({"all_data": parsed_data, "sorted_data": sorted_data, "filtered_data": filtered_data, "views_stats": views_stats, "city_counts": city_counts}, f, ensure_ascii=False)
