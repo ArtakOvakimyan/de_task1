@@ -57,7 +57,7 @@ if __name__ == "__main__":
         data = parse_xml(absolute_filepath)
         if data:
             parsed_data += data
-    sorted_data, filtered_data, views_stats, city_counts = process_data(parsed_data)
+    sorted_data, filtered_data, stats, counts = process_data(parsed_data)
 
     with open("output_4_18.json", "w", encoding="utf-8") as f:
-        json.dump({"all_data": parsed_data, "sorted_data": sorted_data, "filtered_data": filtered_data, "views_stats": views_stats, "city_counts": city_counts}, f, ensure_ascii=False)
+        json.dump({"all_data": parsed_data, "sorted_data": sorted_data, "filtered_data": filtered_data, "stats": stats, "counts": counts}, f, ensure_ascii=False)
