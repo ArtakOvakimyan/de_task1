@@ -1,47 +1,75 @@
-def replace_na_with_average(numbers):
-    for i in range(len(numbers)):
-        if numbers[i] == 'N/A':
-            left = right = None
-            
-            if i > 0 and numbers[i-1] != 'N/A':
-                left = int(numbers[i-1])
-            if i < len(numbers) - 1 and numbers[i+1] != 'N/A':
-                right = int(numbers[i+1])
-            
-            neighbors = [n for n in [left, right] if n is not None]
-            if neighbors:
-                numbers[i] = sum(neighbors) / len(neighbors)
-            else:
-                numbers[i] = 0
+import sqlite3
+import pandas as pd
+import json
+import msgpack
+import pickle
 
-    return list(map(int, numbers))
 
-def filter_and_average(numbers):
-    filtered_numbers = [num for num in numbers if num % 7 == 0]
-    if filtered_numbers:
-        return sum(filtered_numbers) / len(filtered_numbers)
-    return 0
-
-def get_averages(path):
-    averages = []
+def connect_to_db(filename):
+    return sqlite3.connect(filename)
     
-    with open(input_file, 'r') as f:
-        for line in f:
-            numbers = line.strip().split()
-            numbers = replace_na_with_average(numbers)
-            average = filter_and_average(numbers)
-            averages.append(average)
-    return averages
+def load_json(filename):
+    return pd.read_json(filename)
+    
+def write_json(data, filename):
+    with open(filename, 'w') as f:
+        json.dump(data, f)
+        
+def load_pkl(filename):
+    return pd.DataFrame(pd.read_pickle(filename))
+    
+def convert_to_table(df, conn):
+    df.to_sql('songs', conn, if_exists='replace', index=False)
+    
+def first_query(conn):
+    res = pd.read_sql("""
+        SELECT * FROM songs
+        ORDER BY duration_ms DESC
+        LIMIT 28;
+    """, conn)
+    return res.to_dict('records')
 
-def write_res(data, path):
-    averages = []
+def second_query(conn):
+    res = pd.read_sql("""
+        SELECT
+            SUM(popularity) as total_pop,
+            MIN(popularity) as min_pop,
+            MAX(popularity) as max_pop,
+            ROUND(AVG(popularity), 2) as avg_pop
+        FROM songs
+    """, conn)
+    return res.iloc[0].to_dict()
+    
+def third_query(conn):
+    res = pd.read_sql("""
+        SELECT
+            COUNT(*) as count,
+            genre
+        FROM songs
+        GROUP BY genre
+    """, conn)
+    return res.to_dict('records')
+    
+def fourth_query(conn):
+    res = pd.read_sql("""
+        SELECT *
+        FROM songs
+        WHERE year < 2006
+        ORDER BY duration_ms DESC
+        LIMIT 33
+    """, conn)
+    return res.to_dict('records')
+    
 
-    with open(output_file, 'w') as f:
-        for avg in data:
-            f.write(f"{avg}\n")
-            
 if __name__ == '__main__':
-    input_file = './data/third_task.txt'
-    output_file = './3_result_18.txt'
-    averages = get_averages(input_file)
-    write_res(averages, output_file)
+    conn = connect_to_db('./3task_18.db')
+    data1 = load_json('./data/3/_part_1.json')
+    data2 = load_pkl('./data/3/_part_2.pkl')
+    common_columns = list(set(data1.columns) & set(data2.columns))
+    combined_data = pd.concat([data1[common_columns], data2[common_columns]], ignore_index=True)
+    convert_to_table(combined_data, conn)
+    write_json(first_query(conn), './3task_18_1.json')
+    print(second_query(conn))
+    print(third_query(conn))
+    write_json(fourth_query(conn), './3task_18_4.json')
+    conn.close()
