@@ -1,0 +1,107 @@
+{
+    "books_by_author": [
+        "1984",
+        "Animal Farm"
+    ],
+    "book_count_by_genre": [
+        {
+            "genre": "Adventure",
+            "book_count": 4
+        },
+        {
+            "genre": "Fantasy",
+            "book_count": 6
+        },
+        {
+            "genre": "Fiction",
+            "book_count": 23
+        },
+        {
+            "genre": "Historical Fiction",
+            "book_count": 5
+        },
+        {
+            "genre": "Horror",
+            "book_count": 0
+        },
+        {
+            "genre": "Mystery",
+            "book_count": 5
+        },
+        {
+            "genre": "Non-Fiction",
+            "book_count": 0
+        },
+        {
+            "genre": "Romance",
+            "book_count": 5
+        },
+        {
+            "genre": "Science Fiction",
+            "book_count": 4
+        },
+        {
+            "genre": "Thriller",
+            "book_count": 0
+        }
+    ],
+    "book_count_by_author": [
+        {
+            "author": "Agatha Christie",
+            "book_count": 5
+        },
+        {
+            "author": "Charles Dickens",
+            "book_count": 5
+        },
+        {
+            "author": "Ernest Hemingway",
+            "book_count": 5
+        },
+        {
+            "author": "F. Scott Fitzgerald",
+            "book_count": 5
+        },
+        {
+            "author": "George Orwell",
+            "book_count": 6
+        },
+        {
+            "author": "J.K. Rowling",
+            "book_count": 5
+        },
+        {
+            "author": "Jane Austen",
+            "book_count": 5
+        },
+        {
+            "author": "Leo Tolstoy",
+            "book_count": 5
+        },
+        {
+            "author": "Mark Twain",
+            "book_count": 5
+        },
+        {
+            "author": "Tolkien J.R.R.",
+            "book_count": 6
+        }
+    ],
+    "updated_book_title": [
+        "Harry Potter and the Philosopher's Stone"
+    ],
+    "books_in_fiction": [
+        {
+            "book_name": "A Christmas Carol "
+        },
+        {
+            "book_name": "A Farewell to Arms"
+        }
+    ],
+    "book_count_by_author_in_sci_fi": [
+        {
+            "author": "George Orwell",
+            "book_count": 4
+        }
+    ]
+}

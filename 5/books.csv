@@ -1,0 +1,53 @@
+id,author_id,genre_id,name
+1,1,2,1984
+2,1,1,Animal Farm
+3,2,5,Pride and Prejudice
+4,3,1,The Great Gatsby
+5,4,3,The Hobbit
+6,4,3,Lord of the Rings: The Fellowship of the Ring
+7,5,1,Twilight Zone
+8,6,4,And Then There Were None
+9,7,1,A Farewell to Arms
+10,8,6,War and Peace
+11,9,1,A Tale of Two Cities
+12,10,1,Harry Potter and the Philosopher's Stone
+13,1,1,Nineteen Eighty-Four
+14,2,5,Sense and Sensibility
+15,3,1,Tender is the Night
+16,4,3,The Silmarillion
+17,5,10,The Adventures of Tom Sawyer
+18,6,4,Murder on the Orient Express
+19,7,1,For Whom the Bell Tolls
+20,8,6,A Confession
+21,9,1,Dombey and Son
+22,10,1,Harry Potter and the Chamber of Secrets
+23,1,2,Farm Animals in Fiction
+24,2,5,Persuasion
+25,3,1,Basically Fitzgerald
+26,4,3,Bilbo's Journey
+27,5,10,A Connecticut Yankee in King Arthur's Court
+28,6,4,Crooked House
+29,7,1,Soldier's Home
+30,8,6,A History of Russia
+31,9,1,Great Expectations
+32,10,1,Harry Potter and the Prisoner of Azkaban
+33,1,2,Dystopian Futures
+34,2,5,Northanger Abbey
+35,3,1,Beyond Gatsby
+36,4,3,Tales from Middle-Earth
+37,5,10,Roughing It
+38,6,4,Evil Under the Sun
+39,7,1,Cross Creek
+40,8,6,A Calendar of Russia's History
+41,9,1,Olivier Twist
+42,10,1,Harry Potter and the Goblet of Fire
+43,1,2,Fictional Dystopias 
+44,2,5,Lady Susan 
+45,3,1,Gatsby Revisited 
+46,4,3,Sauron's Rise 
+47,5,10,Roughing It Again 
+48,6,4,Curtain 
+49,7,1,A Moveable Feast 
+50,8,6,A People's History of Russia 
+51,9,1,A Christmas Carol 
+52,10,1,Harry Potter and the Order of the Phoenix
